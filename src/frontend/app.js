@@ -1,5 +1,5 @@
 //const apiEndpoint = "https://fa-todo-backend-baqmes.azurewebsites.net/api/tasks";
-const apiEndpoint = "https://aca-qva-fi21-210-heloisameireles.happywave-b012d20a.switzerlandnorth.azurecontainerapps.ioapi/tasks";
+const apiEndpoint = "https://aca-qva-fi21-210-heloisameireles.happywave-b012d20a.switzerlandnorth.azurecontainerapps.io/api/tasks";
 
 $(document).ready(function () {
   // Charger les tâches au démarrage
