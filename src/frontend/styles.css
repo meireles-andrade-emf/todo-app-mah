@@ -48,12 +48,12 @@ body {
 }
 
 #todo-input:focus {
-  border-color: #007bff;
+  border-color: #f0958f;
 }
 
 button {
   padding: 10px 15px;
-  background-color: #007bff;
+  background-color: #f0958f;
   color: white;
   border: none;
   border-radius: 0 8px 8px 0;
@@ -62,7 +62,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #f0958f;
 }
 
 /* Liste des tâches */
