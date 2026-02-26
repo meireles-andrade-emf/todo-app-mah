@@ -4,12 +4,14 @@ on:
   push:
     branches:
       - main # Déclenchement lorsque le code est poussé sur main
+    paths:
+      - 'src/backend/**'
 
 env:
   REG_NAME: acrfi21210.azurecr.io   # Nom de la registry
   IMAGE_NAME: backend-app-git       # Nom de votre image
 
-  
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -27,7 +29,7 @@ jobs:
       # 3️⃣ Build de l'image Docker avec le tag latest
       - name: Build Docker image
         run: |
-          docker build -t ${{ env.REG_NAME }}/${{ env.IMAGE_NAME }}:latest ./backend
+          docker build -t ${{ env.REG_NAME }}/${{ env.IMAGE_NAME }}:latest ./src/backend
 
       # 4️⃣ Push de l'image sur la registry
       - name: Push Docker image
