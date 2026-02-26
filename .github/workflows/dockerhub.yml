@@ -8,30 +8,35 @@ on:
       - 'src/backend/**'
 
 env:
-  REG_NAME: acrfi21210.azurecr.io   # Nom de la registry
-  IMAGE_NAME: backend-app-git       # Nom de votre image
-
+  REGISTRY: acrfi21210.azurecr.io   # Nom de la registry
+  IMAGE_NAME: todo-backend-git-mah      # Nom de votre image
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout du code
+      # 1 Checkout du code
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Login Docker sur la registry
-      - name: Docker login
-        run: |
-          echo ${{ secrets.AZURE_PASSWORD }} | docker login ${{ env.REG_NAME }} -u ${{ secrets.AZURE_USERNAME }} --password-stdin
+      # 2️ Login Docker sur la registry
+      - name: Log in to ACR
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.REGISTRY }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
-      # 3️⃣ Build de l'image Docker avec le tag latest
+      # 3️ Build de l'image Docker avec le tag latest
       - name: Build Docker image
         run: |
-          docker build -t ${{ env.REG_NAME }}/${{ env.IMAGE_NAME }}:latest ./src/backend
+          echo "Building image with SHA tag and latest tag..."
+          docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+                       -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest ./src/backend
 
-      # 4️⃣ Push de l'image sur la registry
+      # 4️ Push de l'image sur la registry
       - name: Push Docker image
         run: |
-          docker push ${{ env.REG_NAME }}/${{ env.IMAGE_NAME }}:latest
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
