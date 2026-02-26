@@ -20,24 +20,16 @@ jobs:
           submodules: true
           lfs: false
 
-  lighthouse:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - name: Run Lighthouse on urls and validate with lighthouserc
-        uses: treosh/lighthouse-ci-action@v12
-        with:
-          urls: 'https://exterkamp.codes/'
-          configPath: './lighthouserc.json'
+ 
 
       # Étape pour vérifier index.html avec couleur
       - name: Vérifier index.html
         working-directory: ./src/frontend
-        run: |
-          if [ -f index.html ]; then
-            echo -e "\033[0;32mLe fichier index.html existe ✅\033[0m"
+        run: | # Le | permet d’écrire plusieurs lignes. 
+          if [ -f index.html ]; then 
+             echo "Le fichier index.html existe"
           else
-            echo -e "\033[0;31mErreur : index.html n’existe pas! ❌\033[0m"
+            echo "Erreur : index.html n'existe pas"
             exit 1
           fi
 
@@ -52,7 +44,23 @@ jobs:
           app_location: "./src/frontend" # App source code path
           api_location: "" # Api source code path - optional
           output_location: "." # Built app content directory - optional
+
           ###### End of Repository/Build Configurations ######
+          
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Audit URLs using Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            https://example.com/
+            https://example.com/blog
+          budgetPath: ./budget.json # test performance budgets
+          uploadArtifacts: true # save results as an action artifacts
+          temporaryPublicStorage: true # upload lighthouse report to the temporary storage
+
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
