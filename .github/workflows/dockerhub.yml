@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main # Déclenchement lorsque le code est poussé sur main
-    paths:
-      - 'backend/**' # Ne se déclenche que si backend/ change
 
 env:
   REG_NAME: acrfi21210.azurecr.io   # Nom de la registry
