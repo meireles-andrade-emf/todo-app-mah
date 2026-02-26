@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY: acrfi21210.azurecr.io   # Nom de la registry
-  IMAGE_NAME: todo-backend-git-mah      # Nom de votre image
+  IMAGE_NAME: todo-backend-mah      # Nom de votre image
 
 jobs:
   build-and-deploy:
