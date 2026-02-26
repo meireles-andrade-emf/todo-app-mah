@@ -9,6 +9,7 @@ env:
   REG_NAME: acrfi21210.azurecr.io   # Nom de la registry
   IMAGE_NAME: backend-app-git       # Nom de votre image
 
+  
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
