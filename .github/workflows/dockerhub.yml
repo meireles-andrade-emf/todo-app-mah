@@ -25,8 +25,8 @@ jobs:
         uses: azure/docker-login@v1
         with:
           login-server: ${{ env.REGISTRY }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
+          username: ${{ secrets.AZURE_USERNAME }}
+          password: ${{ secrets.AZURE_PASSWORD }}
 
       # 3️ Build de l'image Docker avec le tag latest
       - name: Build Docker image
