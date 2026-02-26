@@ -1,24 +1,36 @@
-name: Build and Push Backend Docker Image
+name: Build and save my Docker image to a registry
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main # Déclenchement lorsque le code est poussé sur main
+    paths:
+      - 'backend/**' # Ne se déclenche que si backend/ change
+
+env:
+  REG_NAME: acrfi21210.azurecr.io   # Nom de la registry
+  IMAGE_NAME: backend-app-git       # Nom de votre image
 
 jobs:
-  build-and-push:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # 1️⃣ Checkout du code
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      # 2️⃣ Login Docker sur la registry
+      - name: Docker login
+        run: |
+          echo ${{ secrets.AZURE_PASSWORD }} | docker login ${{ env.REG_NAME }} -u ${{ secrets.AZURE_USERNAME }} --password-stdin
 
-      - uses: docker/build-push-action@v5
-        with:
-          context: ./backend
-          push: true
-          tags: 
-            ${{ secrets.DOCKER_USERNAME }}/todo-backend-git:latest
+      # 3️⃣ Build de l'image Docker avec le tag latest
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.REG_NAME }}/${{ env.IMAGE_NAME }}:latest ./backend
+
+      # 4️⃣ Push de l'image sur la registry
+      - name: Push Docker image
+        run: |
+          docker push ${{ env.REG_NAME }}/${{ env.IMAGE_NAME }}:latest
