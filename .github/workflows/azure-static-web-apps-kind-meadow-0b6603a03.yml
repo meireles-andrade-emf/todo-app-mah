@@ -55,7 +55,7 @@ jobs:
       - name: Audit URLs using Lighthouse
         uses: treosh/lighthouse-ci-action@v12
         with:
-          url:
+          urls:
             https://kind-meadow-0b6603a03.2.azurestaticapps.net/
           budgetPath: ./budget.json # test performance budgets
           uploadArtifacts: true # save results as an action artifacts
